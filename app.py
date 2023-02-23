@@ -11,6 +11,12 @@ db_connection = db.connect_to_database()
 
 mysql = MySQL(app)
 
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'mitch'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'bbm'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
 # Routes 
 
 @app.route('/')
@@ -70,7 +76,7 @@ def delete_customer(customer_id):
 
 # route for edit functionality, updating the attributes of a person in bsg_people
 # similar to our delete route, we want to the pass the 'id' value of that person on button click (see HTML) via the route
-@app.route("/edit_customer/<id>", methods=["POST", "GET"])
+@app.route("/edit_customer/<customer_id>", methods=["POST", "GET"])
 def edit_customer(customer_id):
     if request.method == "GET":
         # mySQL query to grab the info of the person with our passed id
