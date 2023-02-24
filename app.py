@@ -275,7 +275,151 @@ def edit_invoice(invoice_id):
             # redirect back to people page after we execute the update query
             return redirect("/invoices")
         
+@app.route('/manufacturers', methods=["POST", "GET"])
+def manufacturers():
+    if request.method == "POST":
+        # fire off if user presses the Add Person button
+        if request.form.get("Add_Manufacturer"):
+            # grab user form inputs
+            manufacturer_name = request.form["manufacturer_name"]
 
+            query = "INSERT INTO Manufacturer (manufacturer_name) VALUES (%s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (manufacturer_name))
+            mysql.connection.commit()
+
+            # redirect back to people page
+            return redirect("/manufacturers")
+
+    # Grab bsg_people data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the people in bsg_people
+        query = "SELECT * FROM Manufacturers"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        data = cursor.fetchall()
+
+        return render_template("manufacturers.j2", data=data)
+    
+
+
+# route for delete functionality, deleting a person from bsg_people,
+# we want to pass the 'id' value of that person on button click (see HTML) via the route
+@app.route("/delete_manufacturer/<int:manufacturer_id>")
+def delete_manufacturer(manufacturer_id):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Manufacturers WHERE manufacturer_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (manufacturer_id,))
+    mysql.connection.commit()
+
+    # redirect back to people page
+    return redirect("/manufacturers")
+
+
+# route for edit functionality, updating the attributes of a person in bsg_people
+# similar to our delete route, we want to the pass the 'id' value of that person on button click (see HTML) via the route
+@app.route("/edit_manufacturer/<int:manufacturer_id>", methods=["POST", "GET"])
+def edit_manufacturer(manufacturer_id):
+    if request.method == "GET":
+        # mySQL query to grab the info of the person with our passed id
+        query = "SELECT * FROM Manufacturers WHERE manufacturer_id = %s" % (manufacturer_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_people page passing our query data and homeworld data to the edit_people template
+        return render_template("edit_manufacturers.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Person' button
+        if request.form.get("Edit_Manufacturer"):
+            # grab user form inputs
+            manufacturer_name = request.form["manufacturer_name"]
+
+            query = "UPDATE Manufacturers SET Manufacturers.manufacturer_name = %s WHERE Manufacturers.manufacturer_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (manufacturer_name, manufacturer_id))
+            mysql.connection.commit()
+
+            # redirect back to people page after we execute the update query
+            return redirect("/manufacturers")
+        
+@app.route('/sales', methods=["POST", "GET"])
+def sales():
+    if request.method == "POST":
+        # fire off if user presses the Add Person button
+        if request.form.get("Add_Sale"):
+            # grab user form inputs
+            invoice_id = request.form["invoice_id"]
+            product_id = request.form["product_id"]
+            quantity_sold = request.form["quantity_sold"]
+
+            query = "INSERT INTO Sales (invoice_id, product_id, quantity_sold) VALUES (%s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (invoice_id, product_id, quantity_sold))
+            mysql.connection.commit()
+
+            # redirect back to people page
+            return redirect("/sales")
+
+    # Grab bsg_people data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the people in bsg_people
+        query = "SELECT * FROM Sales"
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        data = cursor.fetchall()
+
+        return render_template("sales.j2", data=data)
+    
+# route for delete functionality, deleting a person from bsg_people,
+# we want to pass the 'id' value of that person on button click (see HTML) via the route
+@app.route("/delete_sale/<int:invoice_id>/<int:product_id>")
+def delete_sale(invoice_id, product_id):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Sales WHERE invoice_id = '%s' AND product_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (invoice_id, product_id,))
+    mysql.connection.commit()
+
+    # redirect back to people page
+    return redirect("/sales")
+
+
+# route for edit functionality, updating the attributes of a person in bsg_people
+# similar to our delete route, we want to the pass the 'id' value of that person on button click (see HTML) via the route
+@app.route("/edit_sale/<int:invoice_id>/<int:product_id>", methods=["POST", "GET"])
+def edit_sale(invoice_id, product_id):
+    if request.method == "GET":
+        # mySQL query to grab the info of the person with our passed id
+        query = "SELECT * FROM Sales WHERE invoice_id = %s AND product_id = %s" % (invoice_id, product_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_people page passing our query data and homeworld data to the edit_people template
+        return render_template("edit_sales.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Person' button
+        if request.form.get("Edit_Sale"):
+            # grab user form inputs
+            product_id = request.form["product_id"]
+            quantity_sold = request.form["quantity_sold"]
+
+            query = "UPDATE Sales SET Sales.invoice_id = %s, Sales.product_id = %s, Sales.quantity_sold = %s WHERE Sales.invoice_id = %s AND Sales.product_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (invoice_id, product_id, quantity_sold, invoice_id, product_id))
+            mysql.connection.commit()
+
+            # redirect back to people page after we execute the update query
+            return redirect("/sales")
+        
+
+        
+
+   
     
 # Listener
 
