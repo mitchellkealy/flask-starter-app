@@ -17,6 +17,12 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'bbm'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
+#app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+#app.config['MYSQL_USER'] = 'cs340_kealym'
+#app.config['MYSQL_PASSWORD'] = '7065' #last 4 of onid
+#app.config['MYSQL_DB'] = 'cs340_kealym'
+#app.config['MYSQL_CURSORCLASS'] = "DictCursor"
+
 # Routes 
 
 @app.route('/')
