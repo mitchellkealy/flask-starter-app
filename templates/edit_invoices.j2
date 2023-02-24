@@ -1,14 +1,14 @@
 <html>
 
 <head>
-	<title>Edit Customer</title>
+	<title>Edit Invoice</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
     <div>
         <table border="1" cellpadding="5"> 
-            <caption> Editing Customer: </caption>
+            <caption> Editing Invoice: </caption>
             <!-- Access data tuple passed from app.py -->
             {% if data %}
                 <thead>
@@ -39,24 +39,21 @@
 
         <div id="edit">
             <!-- form to edit data in bsg_people-->
-            <form id="editCustomer" action="/edit_customer/{{data[0].customer_id}}" method="post">
-                <legend><strong>Edit Customer</strong></legend>
+            <form id="editInvoice" action="/edit_invoice/{{data[0].invoice_id}}" method="post">
+                <legend><strong>Edit Invoice</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
-                    <input type="hidden" value="{{data[0].customer_id}}" class="form-control" id="customer_id" name="customer_id" required>
-                    <label for="customer_name">customer_name</label>
+                    <input type="hidden" value="{{data[0].invoice_id}}" class="form-control" id="invoice_id" name="invoice_id" required>
+                    <label for="customer_id">customer_id</label>
 
-                    <input type="text" value="{{data[0].customer_name}}" class="form-control" id="customer_name" name="customer_name" required>
-                    <label for="date_created">date_created:</label>
+                    <input type="text" value="{{data[0].customer_id}}" class="form-control" id="customer_id" name="customer_id" required>
+                    <label for="transaction_date">transaction_date:</label>
 
-                    <input type="text" value="{{data[0].date_created}}" class="form-control" id="date_created" name="date_created" required>
-                    <label for="customer_email">customer_email:</label>
+                    <input type="text" value="{{data[0].transaction_date}}" class="form-control" id="transaction_date" name="transaction_date">
+                    <label for="total_price">total_price:</label>
 
-                    <input type="text" value="{{data[0].customer_email}}" class="form-control" id="customer_email" name="customer_email" required> 
-                    <label for="customer_phone">customer_phone:</label>
-
-                    <input type="text" value="{{data[0].customer_phone}}" class="form-control" id="customer_phone" name="customer_phone">
+                    <input type="text" value="{{data[0].total_price}}" class="form-control" id="total_price" name="total_price" required> 
                 
                 </fieldset>
                 <input type="submit" value="Edit Customer" name="Edit_Customer" class="btn btn-primary" style="margin:.5rem;">

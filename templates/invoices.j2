@@ -1,7 +1,7 @@
 <html>
 <!-- Adapted from the people.html UI design -->
 <head>
-	<title>Customers</title>
+	<title>Invoices</title>
 
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
@@ -38,19 +38,19 @@
 		}
 	}
 
-	function newCustomer() {
+	function newInvoice() {
 		showform('insert');
 	}
 
-	function updateCustomer(customer_id) {
+	function updateInvoice(invoice_id) {
 		showform('update');
 	}
 
-	function deleteCustomer(customer_id) {
+	function deleteInvoice(invoice_id) {
 		showform('delete');
 	}
 
-	function browseCustomers() {
+	function browseInvoices() {
 		showform('browse');
 	}
 
@@ -61,8 +61,8 @@
 </head>
 <h1>CS 340 - Introduction to Databases</h1>
     
-<body onload="browseCustomers()">
-	<h1>Customers</h1> 
+<body onload="browseInvoices()">
+	<h1>Invoices</h1> 
     <p>
     <a href="/">HOME</a>&ensp;
     <a href="/customers">CUSTOMERS</a>&ensp;
@@ -72,7 +72,7 @@
     <a href="/sales">SALES</a>
     </p>
 	<div id="browse">
-		<p><a href="#" onClick="newCustomer()">Add New</a> </p>
+		<p><a href="#" onClick="newInvoice()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -99,8 +99,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_customer/{{item.customer_id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_customer/{{item.customer_id}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_invoice/{{item.invoice_id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_invoice/{{item.invoice_id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -111,46 +111,41 @@
 
 	<div id="insert">
 		<!-- form to INSERT new data into bsg_people-->
-		<form id="insertCustomer" action="/customers" method="post">
-			<legend><strong>Add Customer</strong></legend>
+		<form id="insertInvoice" action="/invoices" method="post">
+			<legend><strong>Add Invoice</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="make">customer name:</label>
-				<input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="" required>
+				<label for="customer_id">customer id:</label>
+				<input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="" required>
 
-				<label for="model">date created:</label>
-				<input type="text" class="form-control" id="date_created" name="date_created" placeholder="01-01-2023" required>
+				<label for="transaction_date">transaction date:</label>
+				<input type="text" class="form-control" id="transaction_date" name="transaction_date" placeholder="2023-01-01">
 
-				<label for="model">customer email:</label>
-				<input type="text" class="form-control" id="customer_email" name="customer_email" placeholder="" required>
+				<label for="total_price">total price:</label>
+				<input type="text" class="form-control" id="total_price" name="total_price" placeholder="" required>
 
-				<label for="model">customer phone:</label>
-				<input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="">
             </fieldset>
 
-            <!-- Create 'Add Customer' and 'Cancel' buttons -->
-			<input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseCustomers()"> 
+            <!-- Create 'Add Invoice' and 'Cancel' buttons -->
+			<input type="submit" value="Add Invoice" name="Add_Invoice" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseInvoices()"> 
         </form>
 	</div><!--insert-->
 	<div id="edit">
 		<!-- form to edit data in bsg_people-->
-		<form id="editCustomer" action="/edit_customer/{{data[0].customer_id}}" method="post">
-			<legend><strong>Edit Customer</strong></legend>
+		<form id="editInvoice" action="/edit_invoice/{{data[0].invoice_id}}" method="post">
+			<legend><strong>Edit Invoice</strong></legend>
 			<fieldset>
-				<input type="hidden" value="{{data[0].customer_id}}" class="form-control" id="customer_id" name="customer_id" required>
-				<label for="customer_name">customer name:</label>
+				<input type="hidden" value="{{data[0].invoice_id}}" class="form-control" id="invoice_id" name="invoice_id" required>
+				<label for="customer_id">customer_id:</label>
 
-				<input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="{{data[0].customer_name}}" required>
-				<label for="date_created">date created:</label>
+				<input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="{{data[0].customer_id}}" required>
+				<label for="transaction_date">transaction_date:</label>
 
-				<input type="text" class="form-control" id="date_created" name="date_created" placeholder="{{data[0].date_created}}" required>
-				<label for="customer_email">customer email:</label>
+				<input type="text" class="form-control" id="transaction_date" name="transaction_date" placeholder="{{data[0].transaction_date}}" required>
+				<label for="total_price">total_price:</label>
 
-				<input type="text" class="form-control" id="customer_email" name="customer_email"  placeholder="{{data[0].customer_email}}" required>
-                <label for="customer_phone">customer phone:</label>
-
-				<input type="text" class="form-control" id="customer_phone" name="customer_phone"placeholder="{{data[0].customer_phone}}">
+				<input type="text" class="form-control" id="total_price" name="total_price"  placeholder="{{data[0].total_price}}" required>
 
 				<input class="btn" type="button" value="Cancel" onClick="browsePeople()" style="margin:.5rem;"> 
         </form>

@@ -1,7 +1,7 @@
 <html>
 <!-- Adapted from the people.html UI design -->
 <head>
-	<title>Customers</title>
+	<title>Products</title>
 
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
@@ -38,19 +38,19 @@
 		}
 	}
 
-	function newCustomer() {
+	function newProduct() {
 		showform('insert');
 	}
 
-	function updateCustomer(customer_id) {
+	function updateProduct(product_id) {
 		showform('update');
 	}
 
-	function deleteCustomer(customer_id) {
+	function deleteProduct(product_id) {
 		showform('delete');
 	}
 
-	function browseCustomers() {
+	function browseProducts() {
 		showform('browse');
 	}
 
@@ -61,8 +61,8 @@
 </head>
 <h1>CS 340 - Introduction to Databases</h1>
     
-<body onload="browseCustomers()">
-	<h1>Customers</h1> 
+<body onload="browseProducts()">
+	<h1>Products</h1> 
     <p>
     <a href="/">HOME</a>&ensp;
     <a href="/customers">CUSTOMERS</a>&ensp;
@@ -72,7 +72,7 @@
     <a href="/sales">SALES</a>
     </p>
 	<div id="browse">
-		<p><a href="#" onClick="newCustomer()">Add New</a> </p>
+		<p><a href="#" onClick="newProduct()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -99,8 +99,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_customer/{{item.customer_id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_customer/{{item.customer_id}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_product/{{item.product_id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_product/{{item.product_id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -111,46 +111,46 @@
 
 	<div id="insert">
 		<!-- form to INSERT new data into bsg_people-->
-		<form id="insertCustomer" action="/customers" method="post">
-			<legend><strong>Add Customer</strong></legend>
+		<form id="insertProduct" action="/products" method="post">
+			<legend><strong>Add Product</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="make">customer name:</label>
-				<input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="" required>
+				<label for="make">product name:</label>
+				<input type="text" class="form-control" id="product_name" name="product_name" placeholder="" required>
 
-				<label for="model">date created:</label>
-				<input type="text" class="form-control" id="date_created" name="date_created" placeholder="01-01-2023" required>
+				<label for="model">product price:</label>
+				<input type="text" class="form-control" id="product_price" name="product_price" placeholder="" required>
 
-				<label for="model">customer email:</label>
-				<input type="text" class="form-control" id="customer_email" name="customer_email" placeholder="" required>
+				<label for="manufacturer_name">manufacturer name:</label>
+				<select class="form-control" id="manufacturer_name" name="manufacturer_name" placeholder="" required>
+				<!-- these are hard coded, but you can add code to make this dynamic -->
+					<option value="Keyboard Inc.">Keyboard Inc.</option>
+					<option value="Mouse Inc.">Mouse Inc.</option>
+					<option value="Headphone Inc.">Headphone Inc.</option>
+				</select>
 
-				<label for="model">customer phone:</label>
-				<input type="text" class="form-control" id="customer_phone" name="customer_phone" placeholder="">
             </fieldset>
 
-            <!-- Create 'Add Customer' and 'Cancel' buttons -->
-			<input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseCustomers()"> 
+            <!-- Create 'Add Product' and 'Cancel' buttons -->
+			<input type="submit" value="Add Product" name="Add_Product" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseProducts()"> 
         </form>
 	</div><!--insert-->
 	<div id="edit">
 		<!-- form to edit data in bsg_people-->
-		<form id="editCustomer" action="/edit_customer/{{data[0].customer_id}}" method="post">
-			<legend><strong>Edit Customer</strong></legend>
+		<form id="editProduct" action="/edit_product/{data[0].product_id}}" method="post">
+			<legend><strong>Edit Product</strong></legend>
 			<fieldset>
-				<input type="hidden" value="{{data[0].customer_id}}" class="form-control" id="customer_id" name="customer_id" required>
-				<label for="customer_name">customer name:</label>
+				<input type="hidden" value="{{data[0].product_id}}" class="form-control" id="product_id" name="product_id" required>
+				<label for="product_name">product name:</label>
 
-				<input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="{{data[0].customer_name}}" required>
-				<label for="date_created">date created:</label>
+				<input type="text" class="form-control" id="product_name" name="product_name" placeholder="{{data[0].product_name}}" required>
+				<label for="product_price">product price:</label>
 
-				<input type="text" class="form-control" id="date_created" name="date_created" placeholder="{{data[0].date_created}}" required>
-				<label for="customer_email">customer email:</label>
+				<input type="text" class="form-control" id="product_price" name="date_created" placeholder="{{data[0].product_price}}" required>
+				<label for="manufacturer_name">manufacturer_name:</label>
 
-				<input type="text" class="form-control" id="customer_email" name="customer_email"  placeholder="{{data[0].customer_email}}" required>
-                <label for="customer_phone">customer phone:</label>
-
-				<input type="text" class="form-control" id="customer_phone" name="customer_phone"placeholder="{{data[0].customer_phone}}">
+				<input type="text" class="form-control" id="manufacturer_name" name="manufacturer_name"  placeholder="{{manufacturer_data[0].manufacturer_name}}" required>
 
 				<input class="btn" type="button" value="Cancel" onClick="browsePeople()" style="margin:.5rem;"> 
         </form>

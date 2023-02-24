@@ -1,0 +1,77 @@
+<html>
+
+<head>
+	<title>Edit Product</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div>
+        <table border="1" cellpadding="5"> 
+            <caption> Editing Product: </caption>
+            <!-- Access data tuple passed from app.py -->
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td>{{item[key]}}</td> {% endfor %} 
+                    </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+
+        <div id="edit">
+            <!-- form to edit data in bsg_people-->
+            <form id="editProduct" action="/edit_product/{{data[0].product_id}}" method="post">
+                <legend><strong>Edit Product</strong></legend>
+                <fieldset>
+                    <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
+                    <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
+                    <input type="hidden" value="{{data[0].product_id}}" class="form-control" id="product_id" name="product_id" required>
+                    <label for="product_name">product_name</label>
+
+                    <input type="text" value="{{data[0].product_name}}" class="form-control" id="product_name" name="product_name" required>
+                    <label for="product_price">product_price</label>
+
+                    <input type="text" value="{{data[0].product_price}}" class="form-control" id="product_price" name="product_price" required>
+                    <label for="manufacturer_name">manufacturer_name:</label>
+
+                    <select class="form-control" id="manufacturer_name" name="manufacturer_name" placeholder="" required> 
+                        <!-- Access our homeworld tuple passed from app.py-->
+                        <option value="0">&nbsp;</option>
+                        {% for manufacturer in manufacturer_data %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if manufacturer['manufacturer_id'] == data[0].manufacturer_name %}
+                                    <option value="{{ manufacturer['manufacturer_id'] }}" selected> {{manufacturer['manufacturer_name']}}</option>
+                                {% else %}
+                                    <option value="{{ manufacturer['manufacturer_id'] }}"> {{manufacturer['manufacturer_name']}}</option> 
+                                {% endif %}
+
+
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </select>
+                
+                </fieldset>
+                <input type="submit" value="Edit Product" name="Edit_Product" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/products'><input class="btn" type="button" value="cancel"></a>
+            </form>
+
+</html>
